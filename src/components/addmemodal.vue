@@ -61,15 +61,14 @@ export default {
   }),
   methods: {
     submit () {
-      axios.post('/addJumper', {
-        firstName: 'Fred',
-        lastName: 'Flintstone'
-      })
-      .then(function (response) {
-        this.showModal = false
-      })
-      .catch(function (error) {
-        console.log(error)
+      console.log('submitting')
+      axios({
+        method: 'post',
+        url: 'http://localhost/hto-vue/server/test.php',
+        data: {
+          firstName: 'Fred',
+          lastName: 'Flintstone'
+        }
       })
     }
   }
