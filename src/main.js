@@ -8,6 +8,10 @@ import 'vue-event-calendar/dist/style.css'
 import vueEventCalendar from 'vue-event-calendar'
 Vue.use(vueEventCalendar, {locale: 'en', selectable: 'all', color: '#caa099'})
 
+Vue.component('addmemodal', {
+  template: '#addmemodal'
+})
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

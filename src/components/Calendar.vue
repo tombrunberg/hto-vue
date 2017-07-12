@@ -1,12 +1,19 @@
 <template>
-	<vue-event-calendar :events="jumpers"></vue-event-calendar>
+  <div>
+    <Addmemodal></Addmemodal>
+  	<vue-event-calendar :events="jumpers"></vue-event-calendar>
+  </div>
 </template>
 
 <script>
 // import axios from 'axios'
 
+import Addmemodal from './addmemodal.vue'
+
 export default {
+  components: { Addmemodal },
   data: () => ({
+    showModal: false,
     roles: [
       'pilot',
       'licensed',
@@ -20,10 +27,16 @@ export default {
         role: 'pilot'
       },
       {
-        date: '2017/07/19',
+        date: '2017/07/21',
         title: 'Test 2',
         desc: 'hello world',
-        role: 'licensed'
+        role: 'pilot'
+      },
+      {
+        date: '2017/07/21',
+        title: 'Matti esko',
+        desc: 'hello world',
+        role: 'student'
       },
       {
         date: '2017/07/19',
@@ -47,9 +60,7 @@ export default {
   })
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 
 .jumper-list {
   margin-top:10px;
@@ -63,5 +74,6 @@ export default {
   padding:10px;
   color:#000;
 }
+.wrapper{text-align:left;padding:5px;}
 
 </style>
