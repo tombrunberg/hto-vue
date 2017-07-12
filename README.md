@@ -1,6 +1,11 @@
 # hto-vue
 
-> Hyppytoimintaorganisaattori
+> Hyppytoimintaorganisaattori aka. HTO
+
+## Dev notes
+
+If you wish to contribute, note that most of the functionality is still very dependent to tombrunberg/vue-event-calendar. 
+I might merge these repositories into one later on, but for now VEC is more of a customized plugin around rest of the functionalities.
 
 ## Build Setup
 
