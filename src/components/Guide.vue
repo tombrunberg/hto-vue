@@ -6,10 +6,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
+    axios.get('./static/api/jumpers/list')
+    .then(function (response) {
+      console.log(response)
+    })
     return {
-
     }
   }
 }
@@ -17,7 +22,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 
 
 </style>
