@@ -6,8 +6,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
-
+import axios from 'axios'
 import Addmemodal from './addmemodal.vue'
 
 export default {
@@ -19,46 +18,31 @@ export default {
       'licensed',
       'student'
     ],
-    jumpers: [
-      {
-        date: '2017/07/19',
-        title: 'test 1',
-        desc: 'hello world',
-        role: 'pilot'
-      },
-      {
-        date: '2017/07/21',
-        title: 'Test 2',
-        desc: 'hello world',
-        role: 'pilot'
-      },
-      {
-        date: '2017/07/21',
-        title: 'Matti esko',
-        desc: 'hello world',
-        role: 'student'
-      },
-      {
-        date: '2017/07/19',
-        title: 'Test 2',
-        desc: 'hello world',
-        role: 'licensed'
-      },
-      {
-        date: '2017/07/19',
-        title: 'Test 2',
-        desc: 'hello world',
-        role: 'licensed'
-      },
-      {
-        date: '2017/07/19',
-        title: 'Test 2',
-        desc: 'hello world',
-        role: 'licensed'
-      }
-    ]
-  })
+    jumpers: []
+  }),
+  methods: {
+    getJumpers () {
+      console.log('requesting jumpers')
+      axios.get('./static/api/jumpers/list')
+      .then(response => {
+        this.jumpers = response.data
+        console.log(response.data)
+      })
+      .catch(e => {
+        this.errors.push(e)
+      })
+    }
+  },
+  created () {
+    console.log('this is crated!')
+    this.getJumpers()
+    /*
+      Using setInterval causes calendar to pop up to 'all' view, eg. unselecting any day selected when data is updated. need to fix
+      setInterval(this.getJumpers, 10000)
+    */
+  }
 }
+
 </script>
 <style>
 

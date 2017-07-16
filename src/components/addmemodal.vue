@@ -8,41 +8,44 @@
           <div class="modal-wrapper">
             <div class="modal-container">
 
-              <div class="modal-header">
-                <slot name="header">
-                  I wanna jump too!
-                </slot>
-              </div>
+              <form v-on:submit="addJumper">
+     
+                <div class="modal-header">
+                  <slot name="header">
+                    I wanna jump too!
+                  </slot>
+                </div>
 
-              <div class="modal-body">
-                <slot name="body">
-                  
-                  <input type="date" class="input" name="date"> 
-                  <input type="text" class="input" name="name" placeholder="Name">  
-                  <input type="text" class="input" name="notes" placeholder="notes">
+                <div class="modal-body">
+                  <slot name="body">
 
-                  <select name="role" class="input">
-                    <option value="pilot">Pilot</option>
-                    <option value="licensed">Licensed</option>
-                    <option value="licensed">Student</option>
-                  </select>
+                    <input type="date" class="input" name="date" v-model="jumperDate"> 
+                    <input type="text" class="input" name="name" placeholder="Name" v-model="jumperName">  
+                    <input type="text" class="input" name="notes" placeholder="notes" v-model="jumperNotes">
 
-                </slot>
-              </div>
+                    <select name="role" class="input" v-model="jumperRole">
+                      <option value="pilot">Pilot</option>
+                      <option value="student">Student</option>
+                      <option value="licensed">Licensed</option>
+                    </select>
 
-              <div class="modal-footer">
-                <slot name="footer">
-                  
+                  </slot>
+                </div>
 
-                  <button  type="submit" class="button btn-submit" @click="submit">
-                    Submit
-                  </button>
+                <div class="modal-footer">
+                  <slot name="footer">
+                    
+                    <button  type="submit" class="button btn-submit">
+                      Submit
+                    </button>
 
-                  <button class="button btn-cancel" @click="showModal = false">
-                    Cancel
-                  </button>
-                </slot>
-              </div>
+                    <button class="button btn-cancel" @click="showModal = false">
+                      Cancel
+                    </button>
+
+                  </slot>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -57,18 +60,27 @@ import axios from 'axios'
 
 export default {
   data: () => ({
-    showModal: false
+    showModal: false,
+    jumperName: '',
+    jumperDate: '',
+    jumperNotes: '',
+    jumperRole: ''
   }),
   methods: {
-    submit () {
-      console.log('submitting')
+    addJumper (e) {
+      e.preventDefault()
       axios({
         method: 'post',
-        url: 'http://localhost/hto-vue/server/test.php',
+        url: './static/api/jumpers/',
         data: {
-          firstName: 'Fred',
-          lastName: 'Flintstone'
+          date: this.jumperDate,
+          name: this.jumperName,
+          notes: this.jumperNotes,
+          role: this.jumperRole
         }
+      })
+      .then(response => {
+        this.showModal = false
       })
     }
   }
