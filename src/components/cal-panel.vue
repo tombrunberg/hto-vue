@@ -9,7 +9,7 @@
       <div class="weeks">
         <span v-for="dayName in i18n[calendar.options.locale].dayNames" class="item">{{dayName}}</span>
       </div>
-      <div class="dates" >
+      <div class="dates">
         <div v-for="date in dayList" class="item"
           :class="{
             today: date.status ? (today == date.date) : false,
@@ -106,8 +106,8 @@ export default {
       //inialize object; list requires, list has, pilot true/false
       let result = {
         ['pilot']: false,
-        ['requires']: {},
-        ['has']: {}
+        ['student']: false,
+        ['licensed']: false
       }
 
       this.events.map(function(elem, key) {
@@ -117,14 +117,28 @@ export default {
           // if is pilot, then 
           if( elem.role == 'pilot' )
             result.pilot = true
+          
+          if( elem.role == 'student' )
+            result.student = true
+          
+          if( elem.role == 'licensed' )
+            result.licensed = true
         }
       });
 
       let resultClasses = 'is-event';
+
       if( result.pilot == true )
         resultClasses += ' pilot-yes'
       else
         resultClasses += ' pilot-no'
+
+      if(result.student == true )
+        resultClasses += ' student-yes'
+
+      if(result.licensed == true )
+        resultClasses += ' licensed-yes'
+
 
       return resultClasses
     },

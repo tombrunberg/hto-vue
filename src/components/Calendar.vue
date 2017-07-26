@@ -60,4 +60,8 @@ export default {
 }
 .wrapper{text-align:left;padding:5px;}
 
+.pilot-yes{border:3px solid #55aed0!important;}
+.licensed-yes{background-color:#afa!important;}
+.student-yes:after{content:"";background-color:red;border-radius:100%;width:12px;height:12px;position:absolute;right:-3px;top:-3px;}
+
 </style>

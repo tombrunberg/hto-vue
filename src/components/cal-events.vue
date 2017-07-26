@@ -15,15 +15,6 @@
           </div>
         </div>
 
-        <div class='rolewrap' v-if="hasRoles('licensed', events)">
-          <h2>Licensed</h2>
-          <div class="event-item">
-            <div v-for="(event, index) in sortOut('licensed',events)" class="">
-              <cal-event-item :event="event" :index="index" :locale="locale"></cal-event-item>
-            </div>
-          </div>
-        </div>
-
         <div class='rolewrap' v-if="hasRoles('student', events)">
           <h2>Students</h2>
           <div class="event-item">
@@ -33,6 +24,14 @@
           </div>
         </div>
 
+        <div class='rolewrap' v-if="hasRoles('licensed', events)">
+          <h2>Licensed</h2>
+          <div class="event-item">
+            <div v-for="(event, index) in sortOut('licensed',events)" class="">
+              <cal-event-item :event="event" :index="index" :locale="locale"></cal-event-item>
+            </div>
+          </div>
+        </div>
       </slot>
     </div>
   </div>
@@ -90,13 +89,10 @@ export default {
       let count = 0
 
       events.map(function(elem, index){
-        console.log( elem.role )
-        console.log( ' vs ' + role )
         if( elem.role == role ) {
           count++
         }
       })
-      console.log(count)
       return count
     },
     sortOut (role, events) {
