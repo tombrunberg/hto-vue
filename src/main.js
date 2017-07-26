@@ -3,9 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import vueEventCalendar from './index.js'
 
-import 'vue-event-calendar/dist/style.css'
-import vueEventCalendar from 'vue-event-calendar'
+import './assets/style.css'
+// import vueEventCalendar from './components/vue-event-calendar'
 Vue.use(vueEventCalendar, {locale: 'en', selectable: 'all', color: '#caa099'})
 
 Vue.component('addmemodal', {
