@@ -106,25 +106,33 @@ export default {
       //inialize object; list requires, list has, pilot true/false
       let result = {
         ['pilot']: false,
-        ['student']: false,
-        ['licensed']: false
+        ['requirements']: [],
+        ['hasRoles']: [],
+        ['licensed']: 0
       }
 
       this.events.map(function(elem, key) {
         let elemDate = new Date(elem.date);
         if( elemDate.getTime() == selectedDate.getTime() ) {
           
+          elem.options.map(function(option,index) {
+
+            if( option.substring(0,4) == 'req_')
+              result.requirements.push(option.substring(4))
+            else
+                result.hasRoles.push(option)
+          })
+
           // if is pilot, then 
           if( elem.role == 'pilot' )
             result.pilot = true
-          
-          if( elem.role == 'student' )
-            result.student = true
-          
+                    
           if( elem.role == 'licensed' )
-            result.licensed = true
+            result.licensed++
         }
       });
+
+      console.log( result )
 
       let resultClasses = 'is-event';
 
@@ -133,12 +141,25 @@ export default {
       else
         resultClasses += ' pilot-no'
 
-      if(result.student == true )
-        resultClasses += ' student-yes'
+      if( result.requirements.length > 0 ) {
+        let studentStatus = 'yes'
 
-      if(result.licensed == true )
+        result.requirements.map(function(elem,index) {
+          if(result.hasRoles.indexOf(elem) < 0)
+            studentStatus = 'no'
+        })
+
+        if( studentStatus == 'yes' )
+          resultClasses += ' student-yes'
+        else
+          resultClasses += ' student-no'
+      }
+
+      if(result.licensed >= 4 )
         resultClasses += ' licensed-yes'
-
+      else if( result.licensed > 0)
+        resultClasses += ' licensed-need-more'
+     
 
       return resultClasses
     },

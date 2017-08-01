@@ -23,18 +23,41 @@ function POST_jumpers($request) {
 		'date' 	=> date('Y/m/d', strtotime($body->date)),
 		'title' => sanitize($body->name),
 		'desc'	=> sanitize($body->notes),
-		'role'	=> (in_array($body->role, array('pilot','licensed','student')) ? $body->role : '')
+		'role'	=> (in_array($body->role, array('pilot','licensed','student')) ? $body->role : ''),
+		'options' => array()
 		);
 
-	if( $newJumper['role'] == '' || strtotime($newJumper['date']) < time() )
-		return array('status' => 400, 'data' => array('Bad data'));
+	/* ACCEPTED OPTIONS, like subroles. */
+	$options = array(
+		'req_PL',
+		'req_RD',
+		'req_VPK',
+		'req_NOVA',
+		'req_TDM',
+		'PL',
+		'RD',
+		'VPK',
+		'TDM',
+		'NOVA'
+	);
 
+	foreach( $body->options as $option ) {
+		if( in_array($option, $options) )
+			array_push($newJumper['options'], $option);
+	}
+
+	if( $newJumper['role'] == '' )
+		return array('status' => 400, 'data' => array('Bad data'));
+	if( strtotime($newJumper['date']) < time() )
+		return array('status' => 400, 'data' => array('it does not work in the past'));
 
 	$jumpersRaw = file_get_contents($jumperspath);
-	$jumpers 	= json_decode($jumpersRaw);
+	$jumpers 	= @json_decode($jumpersRaw);
+
+	if( !is_array($jumpers) )
+		$jumpers = array();
 
 	array_push($jumpers, $newJumper);
-
 	file_put_contents($jumperspath, json_encode($jumpers));
 
 	return array('status' => 200, 'data' => array('ok') );
@@ -43,20 +66,21 @@ function POST_jumpers($request) {
 function GET_jumpers($request) {
 
 	$jumpersPath = dirname(__FILE__) . "/../data/jumpers.json";
+	$jumpersRaw = file_get_contents($jumpersPath);
 
 	$vars = $request['vars'];
 	$func = array_shift($vars);
 
-	$data = array();
+	$data = @json_decode($jumpersRaw);
+	if( !is_array($data) )
+		$data = array();
 
 	switch($func):
 
 		default:
 		case '':
 		case 'all':
-			$jumpersRaw = file_get_contents($jumpersPath);
-			$data 	= json_decode($jumpersRaw);
-
+			$result = $data;
 			break;
 
 		case 'id':
@@ -64,7 +88,7 @@ function GET_jumpers($request) {
 			break;
 	endswitch;
 
-	return array('status' => 200, 'data' => $data);
+	return array('status' => 200, 'data' => $result);
 }
 
 /* no touching beneath this */

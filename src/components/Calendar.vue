@@ -13,20 +13,13 @@ export default {
   components: { Addmemodal },
   data: () => ({
     showModal: false,
-    roles: [
-      'pilot',
-      'licensed',
-      'student'
-    ],
     jumpers: []
   }),
   methods: {
     getJumpers () {
-      console.log('requesting jumpers')
       axios.get('./static/api/jumpers/list')
       .then(response => {
         this.jumpers = response.data
-        console.log(response.data)
       })
       .catch(e => {
         this.errors.push(e)
@@ -34,7 +27,6 @@ export default {
     }
   },
   created () {
-    console.log('this is crated!')
     this.getJumpers()
     /*
       Using setInterval causes calendar to pop up to 'all' view, eg. unselecting any day selected when data is updated. need to fix
@@ -50,7 +42,6 @@ export default {
   margin-top:10px;
   height:auto;
   background-color:#fff;
-
   border-radius:10px;
 }
 
@@ -60,8 +51,35 @@ export default {
 }
 .wrapper{text-align:left;padding:5px;}
 
-.pilot-yes{border:3px solid #55aed0!important;}
-.licensed-yes{background-color:#afa!important;}
-.student-yes:after{content:"";background-color:red;border-radius:100%;width:12px;height:12px;position:absolute;right:-3px;top:-3px;}
+.pilot-yes{
+  border:2px solid #55aed0!important;
+}
+.licensed-yes{
+  background-color:#afa!important;
+}
+/*
+.student-yes:after{
+  content:"";
+  background-color:green;
+  border-radius:100%;
+  width:12px;
+  height:12px;
+  position:absolute;
+  right:-3px;top:-3px;
+}
+*/
+.student-no:after{
+  content:"";
+  background-color:red;
+  border-radius:100%;
+  width:12px;
+  height:12px;
+  position:absolute;
+  right:-3px;top:-3px;
+}
+
+.licensed-yes.pilot-no,.licensed-need-more{
+  background-color:#ee9!important;
+}
 
 </style>
