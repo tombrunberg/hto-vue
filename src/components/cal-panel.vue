@@ -132,8 +132,6 @@ export default {
         }
       });
 
-      console.log( result )
-
       let resultClasses = 'is-event';
 
       if( result.pilot == true )

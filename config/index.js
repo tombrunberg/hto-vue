@@ -28,11 +28,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/static/api': {
-            target: 'http://localhost/hto-vue/static/api',
+        '/server/api': {
+            target: 'http://localhost/hto-vue/server/api',
             changeOrigin: true,
              pathRewrite: {
-                '^/static/api': ''
+                '^/server/api': ''
             }
       }
     },

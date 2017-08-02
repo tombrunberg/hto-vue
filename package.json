@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bootstrap": "^3.3.7",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "vue": "^2.3.3",

@@ -17,7 +17,7 @@ export default {
   }),
   methods: {
     getJumpers () {
-      axios.get('./static/api/jumpers/list')
+      axios.get('./server/api/jumpers/list')
       .then(response => {
         this.jumpers = response.data
       })
@@ -82,4 +82,6 @@ export default {
   background-color:#ee9!important;
 }
 
+.req-to-human:after{content:", ";}
+.req-to-human:last-child:after{content:"";}
 </style>

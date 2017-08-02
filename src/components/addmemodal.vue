@@ -20,8 +20,8 @@
                   <slot name="body">
 
                     <input type="date" class="input" name="date" v-model="jumperDate"> 
-                    <input type="text" class="input" name="name" placeholder="Name" v-model="jumperName">  
-                    <input type="text" class="input" name="notes" placeholder="notes" v-model="jumperNotes">
+                    <input type="text" class="input" name="name" placeholder="Nimi" v-model="jumperName">  
+                    <input type="text" class="input" name="notes" placeholder="paikka klo, huomioita" v-model="jumperNotes">
 
                     <select name="role" class="input form-control" v-model="jumperRole">
                       <option value="pilot">Pilot</option>
@@ -29,51 +29,65 @@
                       <option value="licensed">Licensed</option>
                     </select>
 
-                    <div v-if="this.jumperRole == 'student'">
+                    <div class="roleoptions" v-if="this.jumperRole == 'student'">
 
-                      <input id="req_PL" type="checkbox" value="req_PL" v-model="studentOptions" class="form-control"> 
-                      <label for="req_PL">Tarvitsen PL-hyppymestarin</label>
-                      <br>
+                      <span class="meta">Tarvitsen:</span><br>
+                      <div class="roleoption">
+                        <input id="req_PL" type="checkbox" value="req_PL" v-model="studentOptions" class="form-control"> 
+                        <label for="req_PL">PL-hyppymestarin</label>
+                      </div>
 
-                      <input id="req_RD" type="checkbox" value="req_RD" v-model="studentOptions" class="form-control">
-                      <label for="req_RD">Tarvitsen radiokouluttajan</label>
-                      <br>
+                      <div class="roleoption">
+                        <input id="req_RD" type="checkbox" value="req_RD" v-model="studentOptions" class="form-control">
+                        <label for="req_RD">radiokouluttajan</label>
+                      </div>
 
-                      <input id="req_VPK" type="checkbox" value="req_VPK" v-model="studentOptions" class="form-control">
-                      <label for="req_VPK">Tarvitsen vapaapudotuskouluttajan</label>
-                      <br>
+                      <div class="roleoption">
+                        <input id="req_VPK" type="checkbox" value="req_VPK" v-model="studentOptions" class="form-control">
+                        <label for="req_VPK">vapaapudotuskouluttajan</label>
+                      </div>
 
-                      <input id="req_NOVA" type="checkbox" value="req_NOVA" v-model="studentOptions" class="form-control">
-                      <label for="req_NOVA">Tarvitsen NOVA-hyppymestarin</label>
-                      <br>
+                      <div class="roleoption">
+                        <input id="req_NOVA" type="checkbox" value="req_NOVA" v-model="studentOptions" class="form-control">
+                        <label for="req_NOVA">NOVA-hyppymestarin</label>
+                      </div>
 
-                      <input id="req_TDM" type="checkbox" value="req_TDM" v-model="studentOptions" class="form-control">
-                      <label for="req_TDM">Tarvitsen TANDEM-hyppymestarin</label>
-                      <br>
+                      
+                      <div class="roleoption">
+                        <input id="req_TDM" type="checkbox" value="req_TDM" v-model="studentOptions" class="form-control">
+                        <label for="req_TDM">TANDEM-hyppymestarin</label>
+                      </div>
 
                     </div>
 
-                    <div v-if="this.jumperRole == 'licensed'">
+                    <div class="roleoptions" v-if="this.jumperRole == 'licensed'">
 
-                      <input id="PL" type="checkbox" value="PL" v-model="licensedOptions" class="form-control">
-                      <label for="PL">PL-HM</label>
-                      <br>
+                      <span class="meta">Olen:</span><br>
 
-                      <input id="RD" type="checkbox" value="RD" v-model="licensedOptions" class="form-control">
-                      <label for="RD">RADIO</label>
-                      <br>
+                      <div class="roleoption">
+                        <input id="PL" type="checkbox" value="PL" v-model="licensedOptions" class="form-control">
+                        <label for="PL">PL-HM</label>
+                      </div>
 
-                      <input id="VPK" type="checkbox" value="VPK" v-model="licensedOptions" class="form-control">
-                      <label for="VPK">VPK</label>
-                      <br>
+                      <div class="roleoption">
+                        <input id="RD" type="checkbox" value="RD" v-model="licensedOptions" class="form-control">
+                        <label for="RD">RADIO</label>
+                      </div>
 
-                      <input id="TDM" type="checkbox" value="TDM" v-model="licensedOptions" class="form-control">
-                      <label for="TDM">TDM</label>
-                      <br>
+                      <div class="roleoption">
+                        <input id="VPK" type="checkbox" value="VPK" v-model="licensedOptions" class="form-control">
+                        <label for="VPK">VPK</label>
+                      </div>
 
-                      <input id="NOVA" type="checkbox" value="NOVA" v-model="licensedOptions" class="form-control">
-                      <label for="NOVA">NOVA</label>
-                      <br>
+                      <div class="roleoption">
+                        <input id="TDM" type="checkbox" value="TDM" v-model="licensedOptions" class="form-control">
+                        <label for="TDM">TDM</label>
+                      </div>
+
+                      <div class="roleoption">
+                        <input id="NOVA" type="checkbox" value="NOVA" v-model="licensedOptions" class="form-control">
+                        <label for="NOVA">NOVA</label>
+                      </div>
 
                     </div>
                     
@@ -106,6 +120,7 @@
 <script>
 
 import axios from 'axios'
+import calendar from './Calendar.vue'
 
 export default {
   data: () => ({
@@ -127,11 +142,9 @@ export default {
       if( this.jumperRole == 'student' )
         jumperOptions = this.studentOptions
 
-      console.log( jumperOptions)
-
       axios({
         method: 'post',
-        url: './static/api/jumpers/',
+        url: './server/api/jumpers/',
         data: {
           date: this.jumperDate,
           name: this.jumperName,
@@ -246,11 +259,26 @@ color:#fff;
   transform: scale(1.1);
 }
 
-.input{border:1px inset;
-padding:6px;
-border-radius:3px;
-width:80%;
-margin:5px;
-font-size:14px;
+.input{
+  border:1px inset;
+  padding:6px;
+  border-radius:3px;
+  width:80%;
+  margin:5px;
+  font-size:14px;
 }
+
+select.form-control{width:85%;background-color:#fff;}
+
+.meta,.roleoption label{
+  font-size:14px;text-align:left;
+}
+.roleoptions{
+  text-align:left;
+  margin-left:25px;
+}
+.roleoption{
+  padding-bottom:5px;
+}
+
 </style>
